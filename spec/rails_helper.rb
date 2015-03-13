@@ -47,4 +47,14 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
+
+  module ExtraTestHelpers
+    
+    def newtictactoe 
+      user1 = FactoryGirl.create :user
+      user2 = FactoryGirl.create :user
+      game = FactoryGirl.create :tictactoe, user_id1: user1.id, user_id2: user2.id
+    end
+  end
+  config.include ExtraTestHelpers
 end

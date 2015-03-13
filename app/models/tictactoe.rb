@@ -8,7 +8,9 @@ class Tictactoe < ActiveRecord::Base
   
   def place sym, space
     current_board = boardstate
-    current_board[space - 1] = sym
+    unless current_board[space-1] != "_"
+      current_board[space - 1] = sym
+    end
     update(board: current_board.join(""))
   end
 end
