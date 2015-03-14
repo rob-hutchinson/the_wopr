@@ -1,17 +1,15 @@
 class Tictactoe < ActiveRecord::Base
   belongs_to :users
-
-
-  # def boardstate  
-  #   return self.board.split("")
-  # end
   
+  attr_reader :player1, :player2
+
+  def set_players 
+    players = [self.user_id1, self.user_id2]
+    @player1 = players.shuffle!.pop
+    @player2 = players.first
+  end
+
   def place sym, space
-    # current_board = boardstate
-    # if current_board[space-1] == "_" && space < 10 && space > 0
-    #   current_board[space - 1] = sym
-    # end
-    # update(board: current_board.join(""))
     if board[space-1] == "_" && space < 10 && space > 0
       board[space - 1] = sym
     end
@@ -19,17 +17,12 @@ class Tictactoe < ActiveRecord::Base
   end
 
   def over? 
-    # if boardstate.exclude?("_") || winner?
-    #   true
-    # end
     if board.exclude?("_") || winner?
       true
     end
   end
 
   def value_at space
-    # current_board = boardstate
-    # current_board[space-1]
     board[space-1]
   end
 
@@ -49,7 +42,14 @@ class Tictactoe < ActiveRecord::Base
           return value_at(line.first)
         end
       end
-      nil
+    nil
   end
 
+  def winning_player
+    if winner? == "x"
+      @player1
+    elsif winner? == "o"
+      @player2
+    end
+  end
 end

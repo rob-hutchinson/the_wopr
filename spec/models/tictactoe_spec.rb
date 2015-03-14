@@ -1,3 +1,5 @@
+require 'simplecov'
+SimpleCov.start 'rails'
 require 'rails_helper'
 
 RSpec.describe Tictactoe, type: :model do
@@ -36,5 +38,17 @@ RSpec.describe Tictactoe, type: :model do
     game.place "x", 7
     expect(game.over?).to eq true
     expect(game.winner?).to eq "x"
+  end
+
+  fit "knows who won" do
+    user1 = FactoryGirl.create :user
+    user2 = FactoryGirl.create :user
+    game1 = FactoryGirl.create :tictactoe, board: "xoxoxox__", user_id1: user1.id, user_id2: user2.id 
+
+    game1.set_players
+    
+    expect(game1.over?).to eq true
+    expect(game1.winner?).to eq "x"
+    expect(game1.winning_player).to eq game1.player1
   end
 end
