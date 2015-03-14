@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe Tictactoe, type: :model do
   
   it "users can make moves" do
-    # user1 = FactoryGirl.create :user
-    # user2 = FactoryGirl.create :user
-    # game = FactoryGirl.create :tictactoe, user_id1: user1.id, user_id2: user2.id
-
     game = newtictactoe
 
     game.place "x", 1
@@ -23,5 +19,22 @@ RSpec.describe Tictactoe, type: :model do
     game.place "x", 1
     game.place "o", 1
     expect(game.board).to eq "x________"
+  end
+
+  it "wont let users try to place outside the board" do
+    game = newtictactoe
+
+    game.place "x", 10
+    expect(game.board).to eq "_________"
+    game.place "x", -20  
+    expect(game.board).to eq "_________"
+  end
+
+  it "knows when the game is over" do
+    game = FactoryGirl.create :tictactoe, board: "xoxxoo_xo"
+    
+    game.place "x", 7
+    expect(game.over?).to eq true
+    expect(game.winner?).to eq "x"
   end
 end
