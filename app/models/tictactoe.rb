@@ -10,6 +10,10 @@ class Tictactoe < ActiveRecord::Base
     return Tictactoe.create!(user_id1: @player1.id, user_id2: @player2.id)
   end
 
+  def self.saved_game id
+    Tictactoe.find(id)
+  end
+
   def place sym, space
     if board[space-1] == "_" && space < 10 && space > 0
       board[space - 1] = sym

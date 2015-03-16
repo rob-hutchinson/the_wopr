@@ -25,4 +25,7 @@ class TictactoesController < ApplicationController
     game = Tictactoe.start_game current_user params[:opponent]
     redirect_to tictacto_path(game)
   end
+
+  def index
+  end
 end
