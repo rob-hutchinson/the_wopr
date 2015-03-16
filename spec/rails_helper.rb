@@ -53,7 +53,7 @@ RSpec.configure do |config|
     def newtictactoe 
       user1 = FactoryGirl.create :user
       user2 = FactoryGirl.create :user
-      game = FactoryGirl.create :tictactoe, user_id1: user1.id, user_id2: user2.id
+      game =FactoryGirl.create :tictactoe, user_id1: user1.id, user_id2: user2.id 
     end
   end
   config.include ExtraTestHelpers

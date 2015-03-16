@@ -3,8 +3,8 @@ SimpleCov.start 'rails'
 require 'rails_helper'
 
 RSpec.describe Tictactoe, type: :model do
-  
-  it "users can make moves" do
+
+  it "allows users to make moves" do
     game = newtictactoe
 
     game.place "x", 1
@@ -40,15 +40,20 @@ RSpec.describe Tictactoe, type: :model do
     expect(game.winner?).to eq "x"
   end
 
-  fit "knows who won" do
+  it "knows who won" do
     user1 = FactoryGirl.create :user
     user2 = FactoryGirl.create :user
     game1 = FactoryGirl.create :tictactoe, board: "xoxoxox__", user_id1: user1.id, user_id2: user2.id 
-
-    game1.set_players
-    
+  
     expect(game1.over?).to eq true
     expect(game1.winner?).to eq "x"
     expect(game1.winning_player).to eq game1.player1
+
+    game2 = FactoryGirl.create :tictactoe, board: "ox_ox_o_x", user_id1: user1.id, user_id2: user2.id
+
+    expect(game2.over?).to eq true
+    expect(game2.winner?).to eq "o"
+    expect(game2.winning_player).to eq game2.player2
+  
   end
 end
