@@ -7,16 +7,33 @@ class Tictactoe < ActiveRecord::Base
     players = [user1, user2]
     @player1 = players.shuffle!.pop
     @player2 = players.first
-    return Tictactoe.create!(user_id1: @player1.id, user_id2: @player2.id)
+    return Tictactoe.create!(user_id1: @player1.id, user_id2: @player2.id, currentplayer: @player1.id)
   end
 
   def self.saved_game id
     Tictactoe.find(id)
   end
 
-  def place sym, space
+  def sym
+    if currentplayer == user_id1
+      "x"
+    elsif currentplayer == user_id2
+      "o"
+    end
+  end
+
+  def update_current_player
+    if currentplayer == user_id1
+      self.update(currentplayer: user_id2)
+    elsif currentplayer == user_id2
+      self.update(currentplayer: user_id1)
+    end
+  end
+
+  def place space
     if board[space-1] == "_" && space < 10 && space > 0
       board[space - 1] = sym
+      update_current_player
     end
     save!
   end
@@ -51,10 +68,10 @@ class Tictactoe < ActiveRecord::Base
   end
 
   def winning_player
-    if winner? == "x"
-      @player1
+    if winner? == "x"   
+      user_id1
     elsif winner? == "o"
-      @player2
+      user_id2
     end
   end
 

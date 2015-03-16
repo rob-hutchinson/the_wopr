@@ -51,9 +51,12 @@ RSpec.configure do |config|
   module ExtraTestHelpers
     
     def newtictactoe 
+      # user1 = FactoryGirl.create :user
+      # user2 = FactoryGirl.create :user
+      # game =FactoryGirl.create :tictactoe, user_id1: user1.id, user_id2: user2.id, currentplayer: user1.id 
       user1 = FactoryGirl.create :user
       user2 = FactoryGirl.create :user
-      game =FactoryGirl.create :tictactoe, user_id1: user1.id, user_id2: user2.id 
+      game = Tictactoe.start_game user1, user2
     end
   end
   config.include ExtraTestHelpers
