@@ -3,12 +3,11 @@ class Tictactoe < ActiveRecord::Base
   
   attr_reader :player1, :player2
 
-  def self.start_game player1, player2
-    players = [player1, player2]
+  def self.start_game user1, user2
+    players = [user1, user2]
     @player1 = players.shuffle!.pop
     @player2 = players.first
     return Tictactoe.create!(user_id1: @player1.id, user_id2: @player2.id)
-    binding.pry
   end
 
   def place sym, space

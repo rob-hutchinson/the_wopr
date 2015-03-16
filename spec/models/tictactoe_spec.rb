@@ -3,7 +3,12 @@ SimpleCov.start 'rails'
 require 'rails_helper'
 
 RSpec.describe Tictactoe, type: :model do
-
+  it "can generate a new game" do
+    user1 = FactoryGirl.create :user
+    user2 = FactoryGirl.create :user
+    Tictactoe.start_game user1, user2
+  end
+  
   it "allows users to make moves" do
     game = newtictactoe
 
