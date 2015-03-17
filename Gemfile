@@ -12,6 +12,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise'
 gem 'figaro'
 gem 'httparty'
+gem 'slim'
 
 group :development, :test do
   gem 'spring'
