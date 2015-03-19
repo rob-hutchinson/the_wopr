@@ -1,0 +1,6 @@
+<div class="container">
+  <% if current_user %>
+    <%= form_tag new_hangman_path, method: :post%>
+    <button class="btn btn-success">New Hangman</button>
+  <% end %>
+</div>

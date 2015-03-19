@@ -3,17 +3,17 @@ div class="container"
   p Let's get to it
 
   table#Games class="table table-striped table-hover"
-    tr
-      td Game ID
-      td Game Type
-      td Players
-      - Game.find_each do |game|
-        -if game.players.include?(current_user.id)
+    thead
+      tr
+        th Game ID
+        th Game Type
+        th Finished?
+      tbody
+        - @games.each do |game|
           tr  
             td = game.id
             td = game.type
-              - game.players.each do |player|
-              td = User.find(player).email 
+            td = game.over?
                   
 
 

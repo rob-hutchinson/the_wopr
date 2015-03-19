@@ -26,6 +26,13 @@ RSpec.describe Hangman, type: :model do
     expect(game2.guessed_letters).to eq ["z"]
   end
 
+  it "knows who is currently playing" do
+    user = FactoryGirl.create :user, email: "rob@example.com"
+    Hangman.start_game user
+    game = Hangman.first
+    
+    expect(game.game_player.email).to eq "rob@example.com"
+  end
 
   it "allows users to make a guess" do
     newhangman
@@ -56,6 +63,7 @@ RSpec.describe Hangman, type: :model do
 
     game.take_move "f"
 
+    expect(game.over?).to eq true
     expect(game.lost?).to eq true
     expect(game.guesses_left).to eq 0
     expect(game.board).to eq "____"
@@ -68,10 +76,13 @@ RSpec.describe Hangman, type: :model do
 
     game.take_move "w"
     game.take_move "i"
+    
     expect(game.lost?).to eq false
     expect(game.board).to eq "wi_"
 
     game.take_move "n"
+    
+    expect(game.over?).to eq true
     expect(game.won?).to eq true
     expect(game.board).to eq "win"
     expect(game.guesses_left).to eq 6

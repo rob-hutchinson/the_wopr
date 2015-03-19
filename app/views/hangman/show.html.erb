@@ -1,0 +1,22 @@
+<% unless @game.over? %>
+  <div class="container">
+    <%= @game.board %>
+    <br>
+    <div>
+      <h4>Guessed Letters: </h4><%= @game.guessed_letters %>
+      <h4>Guesses Left: </h4><%= @game.guesses_left %>
+    </div>
+    <% if current_user == @game.game_player %>
+      <%=form_for hangman_guess_path do |f|%>
+        <%= f.label "Guess a letter" %>
+        <%= f.text_field :selected_letter %>
+        <button class="btn btn-success">Guess</button>
+      <% end %>
+    <% end %>
+  </div>
+<% else %>
+  <H3> Game Over! </H3>
+  <h4> Answer: </h4><%= @game.answer %>
+  <br>
+  <h4> Guessed Letters: </h4><%= @game.guessed_letters %>
+<% end %>

@@ -10,7 +10,7 @@ class Hangman < Game
     game = Hangman.new
     game.players = [user1.id]
     game.state = [Words.sample, [], 6]
-    game.current_player = 1
+    game.current_player = user1.id
     game.save!
   end
 
@@ -40,7 +40,9 @@ class Hangman < Game
   end
  
   def take_move guess
-    self.guessed_letters << guess
+    unless self.guessed_letters.include? guess
+      self.guessed_letters << guess
+    end
     unless answer.include? guess.downcase
       state << (state.pop - 1)
     end
@@ -50,9 +52,19 @@ class Hangman < Game
   def lost?
     guesses_left == 0
   end
- 
+
   def won?
     board == answer
+  end
+
+  def over?
+    if self.lost? || self.won?
+      true
+    end
+  end
+
+  def game_player
+    User.find(current_player)
   end
   
   def self.saved_game id
