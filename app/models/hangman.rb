@@ -7,11 +7,16 @@ class Hangman < Game
     map { |w| w.chomp }
  
   def self.start_game user1
-    game = Hangman.new
-    game.players = [user1.id]
-    game.state = [Words.sample, [], 6]
-    game.current_player = user1.id
-    game.save!
+    game = Hangman.create!({
+      current_player: user1.id,
+      state: {
+        :answer => Words.sample,
+        :guessed_letters => [], 
+        :guesses_left => 6
+      }
+    })
+   game.players.push user1
+   game
   end
 
   def board
@@ -28,23 +33,23 @@ class Hangman < Game
   end
 
   def guessed_letters
-    self.state[1]
+    self.state["guessed_letters"]
   end
 
   def answer
-    self.state[0].downcase
+    self.state["answer"].downcase
   end
 
   def guesses_left
-    self.state[2]
+    self.state["guesses_left"]
   end
  
-  def take_move guess
+  def take_move guess 
     unless self.guessed_letters.include? guess
       self.guessed_letters << guess
     end
     unless answer.include? guess.downcase
-      state << (state.pop - 1)
+      self.state["guesses_left"] -= 1
     end
     self.save!
   end

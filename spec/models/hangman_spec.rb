@@ -16,7 +16,7 @@ RSpec.describe Hangman, type: :model do
   it "can find a game it has generated" do
     newhangman
     game = Hangman.first
-    game.update(state: ["game", [], 6])
+    game.update(state: {:answer => "game", :guessed_letters => [], :guesses_left => 6})
     game.take_move "z"
 
     newhangman
@@ -37,7 +37,7 @@ RSpec.describe Hangman, type: :model do
   it "allows users to make a guess" do
     newhangman
     game = Hangman.first
-    game.update(state: ["spinach", [], 6])
+    game.update(state: {:answer => "spinach", :guessed_letters => [], :guesses_left => 6})
 
     game.take_move "s"
 
@@ -48,7 +48,7 @@ RSpec.describe Hangman, type: :model do
   it "takes away chances for wrong guesses" do
     newhangman
     game = Hangman.first
-    game.update(state: ["fail", [], 6])
+    game.update(state: {:answer => "fail", :guessed_letters => [], :guesses_left => 6})
 
     game.take_move "z"
 
@@ -56,10 +56,10 @@ RSpec.describe Hangman, type: :model do
     expect(game.guesses_left).to eq 5
   end
 
-  it "knows when you've run out of guesses" do
+  it "knows when player has run out of guesses" do
     newhangman
     game = Hangman.first
-    game.update(state: ["lost", ["a","b","c","d","e"], 1])
+    game.update(state: {:answer => "lost", :guessed_letters => ["a","b","c","d","e"], :guesses_left => 1})
 
     game.take_move "f"
 
@@ -69,10 +69,10 @@ RSpec.describe Hangman, type: :model do
     expect(game.board).to eq "____"
   end
 
-  it "knows when you've won" do
+  it "knows when player has won" do
     newhangman
     game = Hangman.first
-    game.update(state: ["win", [], 6])
+    game.update(state: { :answer => "win", :guessed_letters => [], :guesses_left => 6})
 
     game.take_move "w"
     game.take_move "i"

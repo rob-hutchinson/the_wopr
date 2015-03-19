@@ -1,18 +1,26 @@
 class Tictactoe < Game
 
   def self.start_game user1, user2
-    game = Tictactoe.new
-    game.state = [nil]*9
-    game.players = [user1.id, user2.id]
-    game.current_player = 0
-    game.save!
+    game = Tictactoe.create!({
+      current_player: 0,
+      state: {
+        :board => [nil]*9
+      }
+    })
+    game.players.push user1
+    game.players.push user2
+    game
+  end
+
+  def board
+    self.state["board"]
   end
 
   def self.saved_game id
     Tictactoe.find(id)
   end
 
-  def take_turn space
+  def take_turn space  
     place current_sym, space
     update_current_player
     save!
@@ -35,19 +43,19 @@ class Tictactoe < Game
   end
 
   def place symbol, space
-    if state[space-1] == nil && space < 10 && space > 0
-      state[space - 1] = symbol
+    if board[space-1] == nil && space < 10 && space > 0
+      board[space - 1] = symbol
     end
   end
 
   def over? 
-    if state.exclude?(nil) || winner?
+    if board.exclude?(nil) || winner?
       true
     end
   end
 
   def value_at space
-    state[space-1]
+    board[space-1]
   end
 
   def winner?
@@ -71,9 +79,9 @@ class Tictactoe < Game
 
   def winning_player
     if winner? == "X"   
-      players.first
+      players.first.id
     elsif winner? == "O"
-      players.last
+      players.last.id
     end
   end
 
