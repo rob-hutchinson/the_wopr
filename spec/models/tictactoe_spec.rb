@@ -87,14 +87,4 @@ RSpec.describe Tictactoe, type: :model do
     expect(game.winning_player).to eq 2
   end
 
-  fit "test" do
-    newtictactoe
-    Game.find_each do |game|
-      binding.pry
-      if game.players.include?(1)
-        binding.pry
-        puts game
-      end
-    end
-  end
 end

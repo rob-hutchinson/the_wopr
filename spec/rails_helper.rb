@@ -55,7 +55,13 @@ RSpec.configure do |config|
       user2 = FactoryGirl.create :user
       Tictactoe.start_game user1, user2
     end
+    
+    def newhangman
+      user1 = FactoryGirl.create :user
+      Hangman.start_game user1
+    end
   end
+
   config.include ExtraTestHelpers
 
 end
