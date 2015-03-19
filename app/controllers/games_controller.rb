@@ -1,8 +1,7 @@
 class GamesController < ApplicationController
 
   def index
-    binding.pry
-    @games = Game.where()
+    @games = current_user.games
   end
 
 

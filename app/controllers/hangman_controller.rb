@@ -2,6 +2,7 @@ class HangmanController < ApplicationController
   
   def show
     @game = Hangman.saved_game params[:id]
+    @board = @game.board.split("").join(" ")
     if current_user == @game.game_player
       render :show
     end
